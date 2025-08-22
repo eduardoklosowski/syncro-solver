@@ -2,11 +2,12 @@ use std::collections::{HashMap, LinkedList};
 
 use serde::Deserialize;
 
-use super::model;
+use super::{Funcao, Letra, Problema};
 
+/// Estrutura do arquivo com problemas.
 #[derive(Debug, Deserialize)]
 pub struct Arquivo {
-    problemas: Vec<Problema>,
+    problemas: Vec<ProblemaDoArquivo>,
 }
 
 impl Arquivo {
@@ -21,37 +22,39 @@ impl Arquivo {
     }
 }
 
+/// Iterador de problemas no arquivo.
 pub struct ProblemasIter {
-    problemas: LinkedList<Problema>,
+    problemas: LinkedList<ProblemaDoArquivo>,
 }
 
 impl Iterator for ProblemasIter {
-    type Item = model::Problema;
+    type Item = Problema;
 
     fn next(&mut self) -> Option<Self::Item> {
         self.problemas.pop_front().map(|problema| problema.into())
     }
 }
 
+/// Estrutura do problema no arquivo.
 #[derive(Debug, Deserialize)]
-struct Problema {
+struct ProblemaDoArquivo {
     vertices: usize,
     quadrado: Option<Vec<(usize, usize)>>,
     circulo: Option<Vec<(usize, usize)>>,
     triangulo: Option<Vec<(usize, usize)>>,
 }
 
-impl From<Problema> for model::Problema {
-    fn from(problema: Problema) -> Self {
+impl From<ProblemaDoArquivo> for Problema {
+    fn from(problema: ProblemaDoArquivo) -> Self {
         let mut funcoes = HashMap::new();
         if let Some(transformacoes) = problema.quadrado {
-            funcoes.insert(model::Letra::Quadrado, model::Funcao::new(transformacoes));
+            funcoes.insert(Letra::Quadrado, Funcao::new(transformacoes));
         }
         if let Some(transformacoes) = problema.circulo {
-            funcoes.insert(model::Letra::Circulo, model::Funcao::new(transformacoes));
+            funcoes.insert(Letra::Circulo, Funcao::new(transformacoes));
         }
         if let Some(transformacoes) = problema.triangulo {
-            funcoes.insert(model::Letra::Triangulo, model::Funcao::new(transformacoes));
+            funcoes.insert(Letra::Triangulo, Funcao::new(transformacoes));
         }
 
         Self::new(problema.vertices, funcoes)

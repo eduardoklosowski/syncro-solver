@@ -1,9 +1,21 @@
 [package]
 name = "syncro-solver"
-version = "0.1.0"
-edition = "2021"
+version = "0.2.0"
+description = "Heurística que resolve os problemas do Syncro"
+authors = ["Eduardo Klosowski <eduardo_klosowski@yahoo.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/eduardoklosowski/syncro-solver"
+categories = ["command-line-utilities"]
+keywords = ["syncro", "solver"]
+edition = "2024"
+rust-version = "1.88"
 publish = false
 
 [dependencies]
 serde = { version = "^1.0", features = ["derive"] }
-toml = "^0.5"
+toml = "^0.9"
+
+[dev-dependencies]
+rand = "^0.9"
+rstest = "^0.26"

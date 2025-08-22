@@ -1,1 +1,7 @@
+# Rust
 /target
+/dist
+
+# IDEs
+/.vscode/*
+/.vscode/launch.json
